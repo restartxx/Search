@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search-GPT WebUI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Search-GPT WebUI</h1>
+            <div class="header-controls">
+                <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+                <button id="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+            </div>
+        </header>
+
+        <aside class="sidebar" id="sidebar">
+            <button id="new-chat-button">Nova Conversa +</button>
+            <div class="sidebar-content">
+                <section class="chat-history">
+                    <h2>Histórico</h2>
+                    <ul id="chat-history-list">
+                        <!-- Itens do histórico serão adicionados aqui -->
+                    </ul>
+                </section>
+                <section class="api-settings">
+                    <h2>Configurações da API</h2>
+                    <div>
+                        <label for="api-key">API Key (Opcional)</label>
+                        <input type="password" id="api-key" placeholder="Sua chave API OpenAI (se necessário)">
+                    </div>
+                    <div>
+                        <label for="temperature">Temperature: <span id="temp-value">0.7</span></label>
+                        <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                    <div>
+                        <label for="max-tokens">Max Tokens: <span id="max-tokens-value">512</span></label>
+                        <input type="number" id="max-tokens" min="1" value="512">
+                    </div>
+                    <!-- Adicionar mais configurações conforme necessário -->
+                </section>
+            </div>
+        </aside>
+
+        <main class="chat-area" id="chat-area">
+            <div class="chat-messages" id="chat-messages">
+                <!-- Mensagens do chat serão adicionadas aqui -->
+                <div class="message bot-message">
+                    <p>Olá! Como posso te ajudar hoje?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <textarea id="message-input" placeholder="Digite sua mensagem..." rows="1"></textarea>
+                <button id="send-button" aria-label="Send message">➤</button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+/* Reset básico e configurações globais */
+:root {
+    --bg-color: #1E1E1E;
+    --text-color: #E0E0E0;
+    --primary-accent-color: #6A0DAD; /* Roxo principal */
+    --secondary-accent-color: #8A2BE2; /* Roxo mais vibrante para hover/foco */
+    --sidebar-bg-color: #252526;
+    --message-user-bg: #333333;
+    --message-bot-bg: #2A2A2A;
+    --border-color: #3c3c3c;
+    --input-bg-color: #2D2D2D;
+    --button-bg-color: var(--primary-accent-color);
+    --button-text-color: #FFFFFF;
+    --button-hover-bg-color: var(--secondary-accent-color);
+    --link-color: var(--secondary-accent-color);
+
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --border-radius: 8px;
+    --padding-sm: 8px;
+    --padding-md: 16px;
+    --padding-lg: 24px;
+}
+
+[data-theme="light"] {
+    --bg-color: #F4F4F4;
+    --text-color: #333333;
+    --primary-accent-color: #6A0DAD;
+    --secondary-accent-color: #8A2BE2;
+    --sidebar-bg-color: #EAEAEA;
+    --message-user-bg: #D1E7FF; /* Azul claro para mensagens do usuário no tema claro */
+    --message-bot-bg: #F0F0F0;
+    --border-color: #CCCCCC;
+    --input-bg-color: #FFFFFF;
+    --button-bg-color: var(--primary-accent-color);
+    --button-text-color: #FFFFFF;
+    --button-hover-bg-color: var(--secondary-accent-color);
+    --link-color: var(--primary-accent-color);
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Evitar scroll no body */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px; /* Max-width para desktop */
+    height: 100vh; /* Ocupar toda a altura da viewport */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color); /* Fundo do container principal */
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Para conter o layout flex */
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding-md);
+    background-color: var(--sidebar-bg-color); /* Cor de fundo do header */
+    border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.header-controls button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-left: var(--padding-sm);
+}
+
+.header-controls button:hover {
+    color: var(--primary-accent-color);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-bg-color);
+    padding: var(--padding-md);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 0;
+    padding: var(--padding-md) 0;
+    overflow: hidden;
+    transform: translateX(-100%); /* Para animação de colapso */
+}
+
+
+#new-chat-button {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: var(--padding-sm) var(--padding-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: var(--padding-md);
+    transition: background-color 0.2s ease;
+}
+
+#new-chat-button:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+.sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-top: var(--padding-md);
+    margin-bottom: var(--padding-sm);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--padding-sm);
+}
+
+.chat-history ul {
+    list-style: none;
+}
+
+.chat-history li {
+    padding: var(--padding-sm);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--padding-sm);
+    font-size: 0.9em;
+    display: flex; /* For aligning text and delete button */
+    justify-content: space-between; /* Pushes delete button to the right */
+    align-items: center; /* Vertically aligns items */
+}
+
+.chat-history li span {
+    flex-grow: 1; /* Allows text to take available space */
+    overflow: hidden; /* Prevents text from overflowing */
+    text-overflow: ellipsis; /* Adds ... if text is too long */
+    white-space: nowrap; /* Keeps text on a single line */
+}
+
+.chat-history li .delete-chat-button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 4px;
+    margin-left: 8px; /* Space between text and button */
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.chat-history li:hover .delete-chat-button {
+    opacity: 1;
+}
+
+.chat-history li .delete-chat-button:hover {
+    color: var(--secondary-accent-color); /* Highlight on hover */
+}
+
+.chat-history li.active-chat {
+    background-color: var(--primary-accent-color);
+    color: var(--button-text-color);
+}
+
+.chat-history li.active-chat .delete-chat-button {
+    color: var(--button-text-color); /* Ensure delete button is visible on active item */
+}
+
+.chat-history li:hover {
+    background-color: var(--primary-accent-color);
+    color: var(--button-text-color);
+}
+
+.api-settings div {
+    margin-bottom: var(--padding-md);
+}
+
+.api-settings label {
+    display: block;
+    margin-bottom: var(--padding-sm);
+    font-size: 0.9em;
+}
+
+.api-settings input[type="range"],
+.api-settings input[type="number"],
+.api-settings input[type="password"] {
+    width: 100%;
+    padding: var(--padding-sm);
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+}
+
+.api-settings input[type="range"] {
+    accent-color: var(--primary-accent-color);
+}
+
+/* Main Content Area */
+.content-wrapper {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Para o scroll da área de chat */
+}
+
+
+/* Chat Area */
+.chat-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Para conter o input e as mensagens */
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: var(--padding-md);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-md);
+}
+
+.message {
+    padding: var(--padding-sm) var(--padding-md);
+    border-radius: var(--border-radius);
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: var(--message-user-bg);
+    color: var(--text-color);
+    align-self: flex-end;
+    border-bottom-right-radius: 0;
+}
+
+.bot-message {
+    background-color: var(--message-bot-bg);
+    color: var(--text-color);
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+}
+
+.bot-message p:last-child,
+.user-message p:last-child {
+    margin-bottom: 0;
+}
+
+.bot-message pre {
+    background-color: #2d2d2d;
+    padding: var(--padding-sm);
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    margin: var(--padding-sm) 0;
+}
+
+.bot-message code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    padding: var(--padding-md);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--sidebar-bg-color); /* Mesmo fundo do header/sidebar para consistência */
+}
+
+.chat-input textarea {
+    flex-grow: 1;
+    padding: var(--padding-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    resize: none; /* Evitar que o usuário redimensione manualmente */
+    min-height: 40px; /* Altura mínima inicial */
+    max-height: 150px; /* Altura máxima antes de scrollar */
+    overflow-y: auto; /* Scroll quando o texto for muito grande */
+    line-height: 1.4;
+}
+
+.chat-input textarea:focus {
+    outline: none;
+    border-color: var(--primary-accent-color);
+    box-shadow: 0 0 0 2px var(--secondary-accent-color);
+}
+
+.chat-input button {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 0 var(--padding-md);
+    margin-left: var(--padding-sm);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.5em; /* Para o ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.chat-input button:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+/* Scrollbar styling (opcional, para um look mais integrado) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-accent-color);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--bg-color); /* Para criar um padding em volta do thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-accent-color);
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        height: 100vh; /* Garante que o container ocupe toda a tela em mobile */
+        border-radius: 0;
+    }
+
+    .content-wrapper {
+        flex-direction: column; /* Empilhar sidebar e chat em mobile é uma opção, mas aqui vamos focar em sidebar overlay */
+    }
+
+    .sidebar {
+        position: absolute; /* Para sobrepor o conteúdo */
+        z-index: 1000;
+        height: calc(100vh - 60px); /* Altura total menos o header */
+        top: 60px; /* Abaixo do header */
+        left: 0;
+        transform: translateX(-100%); /* Começa escondida */
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        width: 280px; /* Largura quando aberta */
+    }
+
+    .chat-area {
+        width: 100%; /* Ocupar toda a largura quando a sidebar está fechada ou sobreposta */
+    }
+
+    #sidebar-toggle {
+        display: block; /* Mostrar o botão de toggle da sidebar */
+    }
+
+    .message {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 769px) {
+    #sidebar-toggle {
+        display: none; /* Esconder o botão de toggle em telas maiores */
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 280px 1fr; /* Sidebar fixa à esquerda, chat à direita */
+        grid-template-rows: auto 1fr; /* Header, Conteúdo */
+        grid-template-areas:
+            "header header"
+            "sidebar main";
+        height: 100vh;
+    }
+    header {
+        grid-area: header;
+    }
+    .sidebar {
+        grid-area: sidebar;
+        position: static; /* Reset para o layout de grid */
+        transform: none;
+        height: 100%; /* Ocupa a altura da linha da grid */
+    }
+    .chat-area {
+        grid-area: main;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .sidebar.collapsed { /* Em desktop, 'collapsed' não deve fazer nada drástico */
+        width: 280px;
+        transform: translateX(0);
+    }
+}
+
+/* Adicionando um estilo para o corpo quando a sidebar está aberta em mobile, para escurecer o fundo */
+body.sidebar-open-overlay::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Abaixo da sidebar, mas acima do conteúdo */
+}
+
+/* Ajuste para que o container principal não seja afetado por `body.sidebar-open-overlay` */
+.container {
+    position: relative;
+    z-index: 1;
+}
